@@ -33,7 +33,7 @@ To get started with this project, follow the steps below:
             git clone https://github.com/raysan5/raylib.git raylib
             cd raylib
             mkdir build && cd build
-            cmake -DBUILD_SHARED_LIBS=ON -DUSE_WAYLAND=ON
+            cmake -DBUILD_SHARED_LIBS=ON -DUSE_WAYLAND=ON ..
             make
             sudo make install
         ```
