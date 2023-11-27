@@ -24,7 +24,7 @@ jobs:
     - name: Restore Raylib Cache
       run: |
         if [ -d raylib ]; then
-          sudo cp -r raylib/. /usr/local/
+          sudo cp raylib/. /usr/local/
         fi
 
     - name: Install Raylib Dependencies
@@ -50,4 +50,4 @@ jobs:
     - name: Save Raylib Cache
       if: always()
       run: |
-        sudo cp -r /usr/local/. raylib/
+        sudo cp /usr/local/. raylib/
