@@ -17,7 +17,7 @@ jobs:
     - name: Install Raylib Dependencies
       run: |
         sudo apt-get update -q
-        sudo apt-get -y install sudo apt install libasound2-dev libx11-dev libxrandr-dev libxi-dev libgl1-mesa-dev libglu1-mesa-dev libxcursor-dev libxinerama-dev
+        sudo apt-get -y libasound2-dev libx11-dev libxrandr-dev libxi-dev libgl1-mesa-dev libglu1-mesa-dev libxcursor-dev libxinerama-dev
     - name: Install Raylib
       run: |
         git clone https://github.com/raysan5/raylib.git raylib
