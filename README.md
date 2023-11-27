@@ -46,3 +46,22 @@ To get started with this project, follow the steps below:
         ```bash
             source .zshrc
         ```
+4. **Run the project**:
+    - run this project simply by running
+        ```bash
+            make
+        ```
+    **note: make sure to be in the root directory**
+
+5. **Contribution**:
+    1. **create your branch**
+        ```bash
+            git branch -M <your_name>
+        ```
+    2. **push your changes**
+    3. **open a pull request and wait for the review**
+
+6. **Resources**
+    - [makefile](http://retis.sssup.it/~luca/makefiles.pdf)
+    - [Raylib](https://www.raylib.com)
+    - [Raylib wiki](https://github.com/raysan5/raylib/wiki/Working-on-GNU-Linux)
