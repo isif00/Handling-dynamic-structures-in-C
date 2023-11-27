@@ -17,7 +17,8 @@ jobs:
     - name: Install Raylib Dependencies
       run: |
         sudo apt-get update -q
-        sudo apt-get -y libasound2-dev libx11-dev libxrandr-dev libxi-dev libgl1-mesa-dev libglu1-mesa-dev libxcursor-dev libxinerama-dev
+        sudo apt-get install -y libasound2-dev mesa-common-dev libx11-dev libxrandr-dev libxi-dev libxcursor-dev libxinerama-dev
+
     - name: Install Raylib
       run: |
         git clone https://github.com/raysan5/raylib.git raylib
@@ -26,6 +27,7 @@ jobs:
         cmake -DBUILD_SHARED_LIBS=ON -DUSE_WAYLAND=ON
         make 
         sudo make install
+        
     - name: Build Project
       run: |
         make
