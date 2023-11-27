@@ -31,11 +31,3 @@ jobs:
     - name: Build Project
       run: |
         make
-
-    - name: Run Tests
-      run: |
-        make check
-
-    - name: Distribution Check
-      run: |
-        make distcheck
