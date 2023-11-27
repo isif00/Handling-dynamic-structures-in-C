@@ -14,6 +14,19 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+    - name: Cache Raylib
+      uses: actions/cache@v2
+      with:
+        path: |
+          raylib
+        key: raylib-${{ runner.os }}-${{ hashFiles('**/*.cmake') }}
+
+    - name: Restore Raylib Cache
+      run: |
+        if [ -d raylib ]; then
+          sudo cp -r raylib/. /usr/local/
+        fi
+
     - name: Install Raylib Dependencies
       run: |
         sudo apt-get update -q
@@ -21,13 +34,20 @@ jobs:
 
     - name: Install Raylib
       run: |
-        git clone https://github.com/raysan5/raylib.git raylib
-        cd raylib
-        mkdir build && cd build
-        cmake -DBUILD_SHARED_LIBS=ON ..
-        make 
-        sudo make install
+        if [ ! -d raylib ]; then
+          git clone https://github.com/raysan5/raylib.git raylib
+          cd raylib
+          mkdir build && cd build
+          cmake -DBUILD_SHARED_LIBS=ON ..
+          make 
+          sudo make install
+        fi
         
     - name: Build Project
       run: |
         make
+
+    - name: Save Raylib Cache
+      if: always()
+      run: |
+        sudo cp -r /usr/local/. raylib/
