@@ -1,8 +1,8 @@
 BUILD_DIR = build
 
-SRCS = src/main.c
+SRCS = src/main.c src/memory.c src/process.c
 
-OBJS = $(BUILD_DIR)/main.o
+OBJS = $(patsubst src/%.c, $(BUILD_DIR)/%.o, $(SRCS))
 
 LIBS = -lraylib -ldl -lpthread -lm -lX11
 

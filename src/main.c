@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "../raylib/src/raylib.h"
+#include "../include/memory.h"
 
 int main(void)
 {
