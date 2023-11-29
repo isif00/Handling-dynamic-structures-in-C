@@ -10,14 +10,12 @@ struct memoryPartition
     struct memoryPartition *next;
 };
 
-
-
 struct memoryPartition *addPartition(struct memoryPartition *head, int address, int size, bool free)
 {
     struct memoryPartition *newPartition = (struct memoryPartition *)malloc(sizeof(struct memoryPartition));
     if (newPartition == NULL)
     {
-        printf(stderr, "Memory allocation failed\n");
+        printf("Memory allocation failed\n");
         return NULL;
     }
 

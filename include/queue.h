@@ -1,11 +1,13 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
+#define MAX_QUEUE_SIZE 100
+
 struct Queue
 {
     int front, rear;
     int capacity;
-    int array[100];
+    int array[MAX_QUEUE_SIZE];
 };
 
 struct Queue *createQueue(int capacity);

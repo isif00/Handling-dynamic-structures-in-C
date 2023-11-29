@@ -1,20 +1,27 @@
 #include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_QUEUE_SIZE 100
 
 // Structure to represent a queue
 struct Queue
 {
     int front, rear;
-    int capacity;
-    int array[100];
+    int array[MAX_QUEUE_SIZE];
 };
 
 // Function to initialize a queue
-struct Queue *createQueue(int capacity)
+struct Queue *createQueue()
 {
     struct Queue *queue = (struct Queue *)malloc(sizeof(struct Queue));
-    queue->capacity = capacity;
-    queue->front = queue->rear = -1; // Initialize front and rear to -1 as the queue is empty
+    queue->front = queue->rear = -1;
     return queue;
+}
+
+// Function to check if the queue is full
+int isFull(struct Queue *queue)
+{
+    return (queue->rear == MAX_QUEUE_SIZE - 1);
 }
 
 // Function to check if the queue is empty
@@ -46,7 +53,7 @@ int dequeue(struct Queue *queue)
     if (isEmpty(queue))
     {
         printf("Queue is empty. Cannot dequeue\n");
-        return -1; // Return a value to indicate an error
+        return -1;
     }
 
     int item = queue->array[queue->front];
@@ -66,9 +73,9 @@ int front(struct Queue *queue)
     if (isEmpty(queue))
     {
         printf("Queue is empty\n");
-        return -1; // Return a value to indicate an error
+        return -1;
+        return queue->array[queue->front];
     }
-    return queue->array[queue->front];
 }
 
 // Function to get the rear element of the queue without removing it
@@ -77,7 +84,7 @@ int rear(struct Queue *queue)
     if (isEmpty(queue))
     {
         printf("Queue is empty\n");
-        return -1; // Return a value to indicate an error
+        return -1;
     }
     return queue->array[queue->rear];
 }
