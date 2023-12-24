@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include "../include/utils.h"
 
 struct memoryPartition
 {
@@ -23,6 +24,7 @@ struct memoryPartition *addPartition(struct memoryPartition *head, int address, 
     newPartition->size = size;
     newPartition->free = free;
     newPartition->next = NULL;
+    printf("Partition added: address: %d, size: %d, free: %d\n", newPartition->address, newPartition->size, newPartition->free);
 
     if (head == NULL)
     {
@@ -39,5 +41,23 @@ struct memoryPartition *addPartition(struct memoryPartition *head, int address, 
         }
         current->next = newPartition;
         return head;
+    }
+}
+
+void initializeMemory()
+{
+    struct memoryPartition *head = NULL;
+    struct memoryPartition *memoryPartition;
+
+    int memorySize = randomizer(5, 15);
+    for (int i = 0; i < memorySize; i++)
+    {
+        // Generate a random values for the partitions
+        int adress = randomizer(50, 1000);
+        int size = randomizer(50, 1000);
+        int isFree = randomizer(0, 1);
+
+        // adding a partition to the list
+        memoryPartition = addPartition(head, adress, size, isFree);
     }
 }

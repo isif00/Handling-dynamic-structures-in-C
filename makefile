@@ -1,6 +1,6 @@
 BUILD_DIR = build
 
-SRCS = src/main.c src/memory.c src/process.c src/queue.c 
+SRCS = src/main.c src/memory.c src/process.c src/queue.c src/utils.c
 
 OBJS = $(patsubst src/%.c, $(BUILD_DIR)/%.o, $(SRCS))
 

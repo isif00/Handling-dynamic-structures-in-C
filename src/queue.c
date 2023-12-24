@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "../include/process.h"
 
 #define MAX_QUEUE_SIZE 100
 
@@ -7,7 +8,7 @@
 struct Queue
 {
     int front, rear;
-    int array[MAX_QUEUE_SIZE];
+    struct process *array[MAX_QUEUE_SIZE];
 };
 
 // Function to initialize a queue
@@ -30,12 +31,12 @@ int isEmpty(struct Queue *queue)
     return (queue->front == -1);
 }
 
-// Function to add an element to the rear of the queue
-void enqueue(struct Queue *queue, int item)
+// Function to add a process to the rear of the queue
+void enqueue(struct Queue *queue, struct process *item)
 {
     if (isFull(queue))
     {
-        printf("Queue is full. Cannot enqueue %d\n", item);
+        printf("Queue is full. Cannot enqueue process\n");
         return;
     }
 
@@ -44,47 +45,47 @@ void enqueue(struct Queue *queue, int item)
 
     queue->rear++;
     queue->array[queue->rear] = item;
-    printf("%d enqueued to the queue\n", item);
+    printf("process with id %d enqueued to the queue\n", item->id);
 }
 
-// Function to remove an element from the front of the queue
-int dequeue(struct Queue *queue)
+// Function to remove a process from the front of the queue
+struct process *dequeue(struct Queue *queue)
 {
     if (isEmpty(queue))
     {
         printf("Queue is empty. Cannot dequeue\n");
-        return -1;
+        return NULL;
     }
 
-    int item = queue->array[queue->front];
+    struct process *item = queue->array[queue->front];
     queue->front++;
 
     // If the front becomes greater than the rear, reset front and rear to -1
     if (queue->front > queue->rear)
         queue->front = queue->rear = -1;
 
-    printf("%d dequeued from the queue\n", item);
+    printf("process with id %d dequeued from the queue\n", item->id);
     return item;
 }
 
-// Function to get the front element of the queue without removing it
-int front(struct Queue *queue)
+// Function to get the front process of the queue without removing it
+struct process *front(struct Queue *queue)
 {
     if (isEmpty(queue))
     {
         printf("Queue is empty\n");
-        return -1;
-        return queue->array[queue->front];
+        return NULL;
     }
+    return queue->array[queue->front];
 }
 
-// Function to get the rear element of the queue without removing it
-int rear(struct Queue *queue)
+// Function to get the rear process of the queue without removing it
+struct process *rear(struct Queue *queue)
 {
     if (isEmpty(queue))
     {
         printf("Queue is empty\n");
-        return -1;
+        return NULL;
     }
     return queue->array[queue->rear];
 }
