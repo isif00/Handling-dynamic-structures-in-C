@@ -1,4 +1,3 @@
-
 #ifndef PROCESS_H
 #define PROCESS_H
 
@@ -12,5 +11,4 @@ struct process
 };
 
 struct process *createProcess(int id, int arrivalTime, int executionDuration, int size);
-
 #endif

@@ -3,6 +3,7 @@
 #include "../include/memory.h"
 #include "../include/process.h"
 #include "../include/queue.h"
+
 #define PARTITION_MIN_SIZE 50
 #define PARTITION_MAX_SIZE 1000
 
@@ -47,6 +48,7 @@ void firstFit(struct memoryPartition **memory, struct Queue *processQueue)
 
     printf("process with id %d could not be allocated.\n", currentprocess->id);
 }
+
 // Best Fit Allocation method
 void bestFit(struct memoryPartition **memory, struct Queue *processQueue)
 {

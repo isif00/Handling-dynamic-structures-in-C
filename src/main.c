@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "../raylib/src/raylib.h"
+#include "../include/raylib.h"
 #include "../include/memory.h"
 #include "../include/queue.h"
 #include "../include/process.h"
@@ -16,24 +16,23 @@ int main(void)
     // memory initialization
     struct memoryPartition *memory = NULL;
     initializeMemory(&memory);
+    printf("[INFO] Memory partitions initialized\n");
 
-    printf("[INFO] Memory initialized\n");
     // initialize process queue
     struct Queue *processQueue = createQueue();
-
-    // add processes to the queue
-    enqueue(processQueue, createProcess(randomizer(50, 1000), 0, randomizer(1, 5), randomizer(10, 30)));
-    enqueue(processQueue, createProcess(randomizer(50, 1000), 1, randomizer(1, 5), randomizer(10, 20)));
-    enqueue(processQueue, createProcess(randomizer(50, 1000), 2, randomizer(1, 5), randomizer(10, 40)));
-
-    printf("[INFO] Processes added to the queue\n");
+    initializeProcessesQueue(processQueue);
+    printf("[INFO] Queue processes initialized\n");
 
     printQueue(processQueue);
     // Use firstFit function
     printf("[INFO] Using first fit algorithm\n");
     firstFit(&memory, processQueue);
+
+    // Use bestFit function
     printf("[INFO] Using best fit algorithm\n");
     bestFit(&memory, processQueue);
+
+    // Use worstFit function
     printf("[INFO] Using worst fit algorithm\n");
     worstFit(&memory, processQueue);
 

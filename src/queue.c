@@ -15,7 +15,20 @@ struct Queue
 struct Queue *createQueue()
 {
     struct Queue *queue = (struct Queue *)malloc(sizeof(struct Queue));
+    if (queue == NULL)
+    {
+        printf("Memory allocation failed for the queue\n");
+        return NULL;
+    }
+
     queue->front = queue->rear = -1;
+
+    // Initialize all pointers in the array to NULL
+    for (int i = 0; i < MAX_QUEUE_SIZE; i++)
+    {
+        queue->array[i] = NULL;
+    }
+
     return queue;
 }
 

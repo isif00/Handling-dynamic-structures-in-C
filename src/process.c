@@ -1,14 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-struct process
-{
-    int id;
-    int arrivalTime;
-    int executionDuration;
-    int size;
-    struct process *next;
-};
+#include "../include/utils.h"
+#include "../include/queue.h"
 
 // fonction to create a process
 struct process *createProcess(int id, int arrivalTime, int executionDuration, int size)
