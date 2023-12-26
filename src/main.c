@@ -6,46 +6,39 @@
 #include "../include/queue.h"
 #include "../include/process.h"
 #include "../include/utils.h"
+#include "../include/allocation.h"
 
 int main(void)
 {
-    // memory initialization
-    initializeMemory();
+    // seed the random number generator
+    srand(time(NULL));
 
+    // memory initialization
+    struct memoryPartition *memory = NULL;
+    initializeMemory(&memory);
+
+    printf("[INFO] Memory initialized\n");
     // initialize process queue
     struct Queue *processQueue = createQueue();
 
-    // add a process to the queue
-    enqueue(processQueue, createProcess(randomizer(50, 1000), randomizer(50, 1000), randomizer(50, 1000), randomizer(50, 1000)));
-    enqueue(processQueue, createProcess(randomizer(50, 1000), randomizer(50, 1000), randomizer(50, 1000), randomizer(50, 1000)));
-    enqueue(processQueue, createProcess(randomizer(50, 1000), randomizer(50, 1000), randomizer(50, 1000), randomizer(50, 1000)));
+    // add processes to the queue
+    enqueue(processQueue, createProcess(randomizer(50, 1000), 0, randomizer(1, 5), randomizer(10, 30)));
+    enqueue(processQueue, createProcess(randomizer(50, 1000), 1, randomizer(1, 5), randomizer(10, 20)));
+    enqueue(processQueue, createProcess(randomizer(50, 1000), 2, randomizer(1, 5), randomizer(10, 40)));
 
-    // Initialize the window
-    const int screenWidth = 800;
-    const int screenHeight = 450;
+    printf("[INFO] Processes added to the queue\n");
 
-    InitWindow(screenWidth, screenHeight, "Red Square Example");
+    printQueue(processQueue);
+    // Use firstFit function
+    printf("[INFO] Using first fit algorithm\n");
+    firstFit(&memory, processQueue);
+    printf("[INFO] Using best fit algorithm\n");
+    bestFit(&memory, processQueue);
+    printf("[INFO] Using worst fit algorithm\n");
+    worstFit(&memory, processQueue);
 
-    SetTargetFPS(60); // Set the frames per second
-
-    // Main game loop
-    while (!WindowShouldClose())
-    {
-        // Update
-
-        // Draw
-        BeginDrawing();
-
-        ClearBackground(RAYWHITE); // Clear the background
-
-        // Draw a red square
-        DrawRectangle(screenWidth / 4, screenHeight / 4, screenWidth / 2, screenHeight / 2, RED);
-
-        EndDrawing();
-    }
-
-    // Close the window
-    CloseWindow();
+    printMemory(memory);
+    printQueue(processQueue);
 
     return 0;
 }

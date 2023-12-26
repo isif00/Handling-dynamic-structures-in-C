@@ -44,20 +44,28 @@ struct memoryPartition *addPartition(struct memoryPartition *head, int address, 
     }
 }
 
-void initializeMemory()
+void initializeMemory(struct memoryPartition **head)
 {
-    struct memoryPartition *head = NULL;
-    struct memoryPartition *memoryPartition;
-
     int memorySize = randomizer(5, 15);
     for (int i = 0; i < memorySize; i++)
     {
-        // Generate a random values for the partitions
-        int adress = randomizer(50, 1000);
+        // Generate random values for the partitions
+        int address = randomizer(50, 1000);
         int size = randomizer(50, 1000);
         int isFree = randomizer(0, 1);
 
-        // adding a partition to the list
-        memoryPartition = addPartition(head, adress, size, isFree);
+        // Adding a partition to the list
+        *head = addPartition(*head, address, size, isFree);
     }
+}
+
+void printMemory(struct memoryPartition *memory)
+{
+    printf("Memory Partitions:\n");
+    while (memory != NULL)
+    {
+        printf("Address: %d, Size: %d, Free: %d\n", memory->address, memory->size, memory->free);
+        memory = memory->next;
+    }
+    printf("\n");
 }

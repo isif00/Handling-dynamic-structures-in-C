@@ -7,6 +7,7 @@ struct process
     int arrivalTime;
     int executionDuration;
     int size;
+    struct process *next;
 };
 
 // fonction to create a process

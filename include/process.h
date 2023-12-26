@@ -8,7 +8,7 @@ struct process
     int arrivalTime;
     int executionDuration;
     int size;
-    struct Process *next;
+    struct process *next;
 };
 
 struct process *createProcess(int id, int arrivalTime, int executionDuration, int size);

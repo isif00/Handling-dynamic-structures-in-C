@@ -89,3 +89,20 @@ struct process *rear(struct Queue *queue)
     }
     return queue->array[queue->rear];
 }
+
+void printQueue(struct Queue *queue)
+{
+    if (isEmpty(queue))
+    {
+        printf("Queue is empty\n");
+        return;
+    }
+
+    printf("Process Queue:\n");
+    for (int i = queue->front; i <= queue->rear; i++)
+    {
+        printf("Process id: %d, Arrival Time: %d, Execution Duration: %d, Size: %d\n",
+               queue->array[i]->id, queue->array[i]->arrivalTime,
+               queue->array[i]->executionDuration, queue->array[i]->size);
+    }
+}

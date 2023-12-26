@@ -12,5 +12,7 @@ struct memoryPartition
 };
 
 struct memoryPartition *addPartition(struct memoryPartition *head, int address, int size, bool free);
-void initializeMemory();
+void initializeMemory(struct memoryPartition **head);
+void printMemory(struct memoryPartition *memory);
+
 #endif
