@@ -3,14 +3,6 @@
 #include <stdbool.h>
 #include "../include/utils.h"
 
-struct memoryPartition
-{
-    int address;
-    int size;
-    bool free;
-    struct memoryPartition *next;
-};
-
 struct memoryPartition *addPartition(struct memoryPartition *head, int address, int size, bool free)
 {
     struct memoryPartition *newPartition = (struct memoryPartition *)malloc(sizeof(struct memoryPartition));
@@ -46,7 +38,7 @@ struct memoryPartition *addPartition(struct memoryPartition *head, int address, 
 
 void initializeMemory(struct memoryPartition **head)
 {
-    int memorySize = randomizer(5, 15);
+    int memorySize = randomizer(2, 6);
     for (int i = 0; i < memorySize; i++)
     {
         // Generate random values for the partitions
@@ -68,4 +60,19 @@ void printMemory(struct memoryPartition *memory)
         memory = memory->next;
     }
     printf("\n");
+}
+
+// Function to check if the memory is full
+int isMemoryFull(struct memoryPartition **head)
+{
+    struct memoryPartition *current = *head;
+    while (current != NULL)
+    {
+        if (current->free)
+        {
+            return 0;
+        }
+        current = current->next;
+    }
+    return 1;
 }

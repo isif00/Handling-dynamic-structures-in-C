@@ -8,9 +8,8 @@
 #define PARTITION_MAX_SIZE 1000
 
 // First Fit Allocation method
-void firstFit(struct memoryPartition **memory, struct Queue *processQueue)
+void firstFit(struct memoryPartition **memory, struct process *currentprocess)
 {
-    struct process *currentprocess = dequeue(processQueue);
 
     if (currentprocess == NULL)
     {
@@ -50,10 +49,8 @@ void firstFit(struct memoryPartition **memory, struct Queue *processQueue)
 }
 
 // Best Fit Allocation method
-void bestFit(struct memoryPartition **memory, struct Queue *processQueue)
+void bestFit(struct memoryPartition **memory, struct process *currentProcess)
 {
-    struct process *currentProcess = dequeue(processQueue);
-
     if (currentProcess == NULL)
     {
         printf("No process to allocate.\n");
@@ -107,9 +104,8 @@ void bestFit(struct memoryPartition **memory, struct Queue *processQueue)
 }
 
 // Worst Fit Allocation method
-void worstFit(struct memoryPartition **memory, struct Queue *processQueue)
+void worstFit(struct memoryPartition **memory, struct process *currentProcess)
 {
-    struct process *currentProcess = dequeue(processQueue);
 
     if (currentProcess == NULL)
     {

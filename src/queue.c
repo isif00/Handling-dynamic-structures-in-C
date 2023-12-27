@@ -89,6 +89,7 @@ struct process *front(struct Queue *queue)
         printf("Queue is empty\n");
         return NULL;
     }
+    printf("front process id: %d\n", queue->array[queue->front]->id);
     return queue->array[queue->front];
 }
 
@@ -100,6 +101,7 @@ struct process *rear(struct Queue *queue)
         printf("Queue is empty\n");
         return NULL;
     }
+    printf("rear process id: %d\n", queue->array[queue->rear]->id);
     return queue->array[queue->rear];
 }
 
