@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../include/memory.h"
-#include "../include/process.h"
-#include "../include/queue.h"
+#include "../../include/memory.h"
+#include "../../include/process.h"
+#include "../../include/queue.h"
 
 #define PARTITION_MIN_SIZE 50
 #define PARTITION_MAX_SIZE 1000

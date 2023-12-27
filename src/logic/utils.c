@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../include/process.h"
-#include "../include/queue.h"
-#include "../include/memory.h"
-#include "../include/allocation.h"
+#include "../../include/process.h"
+#include "../../include/queue.h"
+#include "../../include/memory.h"
+#include "../../include/allocation.h"
 
 int randomizer(int min, int max)
 {

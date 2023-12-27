@@ -7,6 +7,7 @@
 #include "../include/process.h"
 #include "../include/utils.h"
 #include "../include/allocation.h"
+#include "../include/memoryGr.h"
 
 int main(void)
 {
@@ -51,6 +52,28 @@ int main(void)
 
     printMemory(memory);
     printQueue(processQueue);
+
+    const int screenWidth = 800;
+    const int screenHeight = 600;
+
+    InitWindow(screenWidth, screenHeight, "Memory Simulation");
+    SetTargetFPS(60);
+    while (!WindowShouldClose())
+    {
+        // Update
+
+        // Draw
+        BeginDrawing();
+        ClearBackground(RAYWHITE);
+
+        // Draw the memory layout
+        drawMemoryLayout(memory);
+
+        EndDrawing();
+    }
+
+    // De-Initialization
+    CloseWindow();
 
     return 0;
 }

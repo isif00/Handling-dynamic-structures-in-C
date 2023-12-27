@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "../include/utils.h"
+#include "../../include/utils.h"
 
 struct memoryPartition *addPartition(struct memoryPartition *head, int address, int size, bool free)
 {

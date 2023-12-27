@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../include/process.h"
+#include "../../include/process.h"
 
 #define MAX_QUEUE_SIZE 100
 
