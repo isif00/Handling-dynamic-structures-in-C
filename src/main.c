@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <unistd.h>
 #include "../include/raylib.h"
 #include "../include/memory.h"
 #include "../include/queue.h"
@@ -8,6 +9,9 @@
 #include "../include/utils.h"
 #include "../include/allocation.h"
 #include "../include/memoryGr.h"
+
+#define RAYGUI_IMPLEMENTATION
+#include "../include/raygui.h"
 
 int main(void)
 {
@@ -26,10 +30,10 @@ int main(void)
 
     printQueue(processQueue);
 
-    // // Use firstFit function
-    // printf("[INFO] Using first fit algorithm\n");
-    // struct process *partition = dequeue(processQueue);
-    // firstFit(&memory, partition);
+    // Use firstFit function
+    printf("[INFO] Using first fit algorithm\n");
+    struct process *partition = dequeue(processQueue);
+    firstFit(&memory, partition);
 
     // // Use bestFit function
     // printf("[INFO] Using best fit algorithm\n");
@@ -39,9 +43,9 @@ int main(void)
     // printf("[INFO] Using worst fit algorithm\n");
     // worstFit(&memory, processQueue);
 
-    // Use firstFitUntilFull function
-    printf("[INFO] Using first fit until full algorithm\n");
-    firstFitUntilFull(&memory, processQueue);
+    // // Use firstFitUntilFull function
+    // printf("[INFO] Using first fit until full algorithm\n");
+    // firstFitUntilFull(&memory, processQueue);
 
     // // Use bestFitUntilFull function
     // printf("[INFO] Using best fit until full algorithm\n");
@@ -69,6 +73,35 @@ int main(void)
 
         // Draw the memory layout
         drawMemoryLayout(memory);
+
+        // Draw the allocations method's buttons
+        int buttonWidth = 150;
+        int buttonHeight = 40;
+        int buttonSpacing = 20;
+        int buttonX = (screenWidth - (3 * buttonWidth + 2 * buttonSpacing)) / 2;
+        int buttonY = screenHeight - 60;
+
+        if (GuiButton((Rectangle){buttonX, buttonY, buttonWidth, buttonHeight}, "Best Fit"))
+        {
+            struct process *partition = dequeue(processQueue);
+            bestFit(&memory, partition);
+        }
+
+        buttonX += buttonWidth + buttonSpacing;
+
+        if (GuiButton((Rectangle){buttonX, buttonY, buttonWidth, buttonHeight}, "First Fit"))
+        {
+            struct process *partition = dequeue(processQueue);
+            firstFit(&memory, partition);
+        }
+
+        buttonX += buttonWidth + buttonSpacing;
+
+        if (GuiButton((Rectangle){buttonX, buttonY, buttonWidth, buttonHeight}, "Worst Fit"))
+        {
+            struct process *partition = dequeue(processQueue);
+            worstFit(&memory, partition);
+        }
 
         EndDrawing();
     }

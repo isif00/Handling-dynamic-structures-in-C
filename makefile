@@ -12,7 +12,7 @@ LOGIC_OBJS = $(patsubst $(LOGIC_DIR)/%.c, $(BUILD_DIR)/%.o, $(LOGIC_SRCS))
 GRAPHIC_OBJS = $(patsubst $(GRAPHIC_DIR)/%.c, $(BUILD_DIR)/%.o, $(GRAPHIC_SRCS))
 MAIN_OBJ = $(BUILD_DIR)/main.o
 
-LIBS = -lraylib -ldl -lpthread -lm -lX11
+LIBS = -lraylib -ldl -lpthread -lm -lX11 -lglfw -ldl -lpthread -lm -lrt -lX11 -lGL
 
 all: $(LOGIC_OBJS) $(GRAPHIC_OBJS) $(MAIN_OBJ)
 	gcc $^ -o $(BUILD_DIR)/main $(LIBS)
