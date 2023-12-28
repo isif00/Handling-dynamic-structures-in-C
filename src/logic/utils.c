@@ -17,7 +17,7 @@ void initializeProcessesQueue(struct Queue *queue)
     {
         // Generate random values for the process
         int id = randomizer(50, 1000);
-        int arrivalTime = randomizer(0, 5);
+        int arrivalTime = i;
         int executionDuration = randomizer(2, 8);
         int size = randomizer(20, 100);
 

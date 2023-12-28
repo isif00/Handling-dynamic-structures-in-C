@@ -26,21 +26,10 @@ int main(void)
 
     printQueue(processQueue);
 
-    // Use firstFitUntilFull function
-    printf("[INFO] Using first fit until full algorithm\n");
-    firstFitUntilFull(&memory, processQueue);
-
-    // Use bestFitUntilFull function
-    printf("[INFO] Using best fit until full algorithm\n");
-    bestFitUntilFull(&memory, processQueue);
-
-    // Use worstFitUntilFull function
-    printf("[INFO] Using worst fit until full algorithm\n");
-    worstFitUntilFull(&memory, processQueue);
-
     // // Use firstFit function
     // printf("[INFO] Using first fit algorithm\n");
-    // // firstFit(&memory, processQueue);
+    // struct process *partition = dequeue(processQueue);
+    // firstFit(&memory, partition);
 
     // // Use bestFit function
     // printf("[INFO] Using best fit algorithm\n");
@@ -49,6 +38,18 @@ int main(void)
     // // Use worstFit function
     // printf("[INFO] Using worst fit algorithm\n");
     // worstFit(&memory, processQueue);
+
+    // Use firstFitUntilFull function
+    printf("[INFO] Using first fit until full algorithm\n");
+    firstFitUntilFull(&memory, processQueue);
+
+    // // Use bestFitUntilFull function
+    // printf("[INFO] Using best fit until full algorithm\n");
+    // bestFitUntilFull(&memory, processQueue);
+
+    // // Use worstFitUntilFull function
+    // printf("[INFO] Using worst fit until full algorithm\n");
+    // worstFitUntilFull(&memory, processQueue);
 
     printMemory(memory);
     printQueue(processQueue);

@@ -8,10 +8,9 @@
 #define PARTITION_MAX_SIZE 1000
 
 // First Fit Allocation method
-void firstFit(struct memoryPartition **memory, struct process *currentprocess)
+void firstFit(struct memoryPartition **memory, struct process *currentProcess)
 {
-
-    if (currentprocess == NULL)
+    if (currentProcess == NULL)
     {
         printf("No process to allocate.\n");
         return;
@@ -21,33 +20,34 @@ void firstFit(struct memoryPartition **memory, struct process *currentprocess)
 
     while (currentPartition != NULL)
     {
-        if (currentPartition->free && currentPartition->size >= currentprocess->size)
+        if (currentPartition->free && currentPartition->size >= currentProcess->size)
         {
             // Allocate the process to the current partition
             currentPartition->free = false;
+            currentPartition->allocatedProcess = currentProcess;
 
             // Check if we need to create a new partition for the remaining memory
-            if (currentPartition->size > currentprocess->size)
+            if (currentPartition->size > currentProcess->size)
             {
                 struct memoryPartition *newPartition = (struct memoryPartition *)malloc(sizeof(struct memoryPartition));
-                newPartition->address = currentPartition->address + currentprocess->size;
-                newPartition->size = currentPartition->size - currentprocess->size;
+                newPartition->address = currentPartition->address + currentProcess->size;
+                newPartition->size = currentPartition->size - currentProcess->size;
                 newPartition->free = true;
+                newPartition->allocatedProcess = NULL; // Initialize to NULL for the new partition
                 newPartition->next = currentPartition->next;
-                currentPartition->size = currentprocess->size;
+                currentPartition->size = currentProcess->size;
                 currentPartition->next = newPartition;
             }
 
-            printf("process with id %d allocated to memory partition starting at address %d\n", currentprocess->id, currentPartition->address);
+            printf("Process with id %d allocated to memory partition starting at address %d\n", currentProcess->id, currentPartition->address);
             return;
         }
 
         currentPartition = currentPartition->next;
     }
 
-    printf("process with id %d could not be allocated.\n", currentprocess->id);
+    printf("Process with id %d could not be allocated.\n", currentProcess->id);
 }
-
 // Best Fit Allocation method
 void bestFit(struct memoryPartition **memory, struct process *currentProcess)
 {
@@ -82,6 +82,7 @@ void bestFit(struct memoryPartition **memory, struct process *currentProcess)
     {
         // Allocate the process to the best fit partition
         bestFitPartition->free = false;
+        bestFitPartition->allocatedProcess = currentProcess;
 
         // Check if we need to create a new partition for the remaining memory
         if (bestFitPartition->size > currentProcess->size)
@@ -90,6 +91,7 @@ void bestFit(struct memoryPartition **memory, struct process *currentProcess)
             newPartition->address = bestFitPartition->address + currentProcess->size;
             newPartition->size = bestFitPartition->size - currentProcess->size;
             newPartition->free = true;
+            newPartition->allocatedProcess = NULL; // Initialize to NULL for the new partition
             newPartition->next = bestFitPartition->next;
             bestFitPartition->size = currentProcess->size;
             bestFitPartition->next = newPartition;
@@ -106,7 +108,6 @@ void bestFit(struct memoryPartition **memory, struct process *currentProcess)
 // Worst Fit Allocation method
 void worstFit(struct memoryPartition **memory, struct process *currentProcess)
 {
-
     if (currentProcess == NULL)
     {
         printf("No process to allocate.\n");
@@ -138,6 +139,7 @@ void worstFit(struct memoryPartition **memory, struct process *currentProcess)
     {
         // Allocate the process to the worst fit partition
         worstFitPartition->free = false;
+        worstFitPartition->allocatedProcess = currentProcess;
 
         // Check if we need to create a new partition for the remaining memory
         if (worstFitPartition->size > currentProcess->size)
@@ -146,6 +148,7 @@ void worstFit(struct memoryPartition **memory, struct process *currentProcess)
             newPartition->address = worstFitPartition->address + currentProcess->size;
             newPartition->size = worstFitPartition->size - currentProcess->size;
             newPartition->free = true;
+            newPartition->allocatedProcess = NULL; // Initialize to NULL for the new partition
             newPartition->next = worstFitPartition->next;
             worstFitPartition->size = currentProcess->size;
             worstFitPartition->next = newPartition;

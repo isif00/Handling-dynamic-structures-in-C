@@ -8,6 +8,7 @@ struct memoryPartition
     int address;
     int size;
     bool free;
+    struct process *allocatedProcess;
     struct memoryPartition *next;
 };
 
