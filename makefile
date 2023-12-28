@@ -14,22 +14,28 @@ MAIN_OBJ = $(BUILD_DIR)/main.o
 
 LIBS = -lraylib -ldl -lpthread -lm -lX11 -lglfw -ldl -lpthread -lm -lrt -lX11 -lGL
 
+# Debug flags
+DEBUG_FLAGS = -g -O0
+
 all: $(LOGIC_OBJS) $(GRAPHIC_OBJS) $(MAIN_OBJ)
-	gcc $^ -o $(BUILD_DIR)/main $(LIBS)
+	gcc $(DEBUG_FLAGS) $^ -o $(BUILD_DIR)/main $(LIBS)
+
+debug: all
+	gdb ./$(BUILD_DIR)/main
 
 $(BUILD_DIR)/%.o: $(LOGIC_DIR)/%.c
 	mkdir -p $(BUILD_DIR)
-	gcc -c $< -o $@
+	gcc -c $(DEBUG_FLAGS) $< -o $@
 
 $(BUILD_DIR)/%.o: $(GRAPHIC_DIR)/%.c
 	mkdir -p $(BUILD_DIR)
-	gcc -c $< -o $@
+	gcc -c $(DEBUG_FLAGS) $< -o $@
 
 $(BUILD_DIR)/main.o: $(MAIN_SRC)
 	mkdir -p $(BUILD_DIR)
-	gcc -c $< -o $@
+	gcc -c $(DEBUG_FLAGS) $< -o $@
 
 clean:
 	rm -rf $(BUILD_DIR)
 
-.PHONY: clean
+.PHONY: clean debug

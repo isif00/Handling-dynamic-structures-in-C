@@ -12,13 +12,13 @@ int randomizer(int min, int max)
 
 void initializeProcessesQueue(struct Queue *queue)
 {
-    int numProcesses = randomizer(1, 2);
+    int numProcesses = randomizer(5, 10);
     for (int i = 0; i < numProcesses; i++)
     {
         // Generate random values for the process
         int id = randomizer(50, 1000);
         int arrivalTime = i;
-        int executionDuration = randomizer(2, 8);
+        int executionDuration = randomizer(15, 30);
         int size = randomizer(20, 100);
 
         // Create a process and enqueue it

@@ -16,4 +16,6 @@ struct memoryPartition *addPartition(struct memoryPartition *head, int address, 
 void initializeMemory(struct memoryPartition **head);
 void printMemory(struct memoryPartition *memory);
 int isMemoryFull(struct memoryPartition **head);
+void freeMemory(struct memoryPartition **memory);
+
 #endif

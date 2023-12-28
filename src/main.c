@@ -30,10 +30,10 @@ int main(void)
 
     printQueue(processQueue);
 
-    // Use firstFit function
-    printf("[INFO] Using first fit algorithm\n");
-    struct process *partition = dequeue(processQueue);
-    firstFit(&memory, partition);
+    // // Use firstFit function
+    // printf("[INFO] Using first fit algorithm\n");
+    // struct process *partition = dequeue(processQueue);
+    // firstFit(&memory, partition);
 
     // // Use bestFit function
     // printf("[INFO] Using best fit algorithm\n");
@@ -59,7 +59,7 @@ int main(void)
     printQueue(processQueue);
 
     const int screenWidth = 800;
-    const int screenHeight = 600;
+    const int screenHeight = 1000;
 
     InitWindow(screenWidth, screenHeight, "Memory Simulation");
     SetTargetFPS(60);
@@ -71,15 +71,24 @@ int main(void)
         BeginDrawing();
         ClearBackground(RAYWHITE);
 
-        // Draw the memory layout
-        drawMemoryLayout(memory);
-
         // Draw the allocations method's buttons
         int buttonWidth = 150;
         int buttonHeight = 40;
         int buttonSpacing = 20;
-        int buttonX = (screenWidth - (3 * buttonWidth + 2 * buttonSpacing)) / 2;
+        int buttonX = (screenWidth - (4 * buttonWidth + 2 * buttonSpacing)) / 2;
         int buttonY = screenHeight - 60;
+
+        if (GuiButton((Rectangle){buttonX, buttonY, buttonWidth, buttonHeight}, "Re-initialize Memory"))
+        {
+            // Free the memory partitions
+            freeMemory(&memory);
+
+            // Initialize new memory partitions
+            initializeMemory(&memory);
+            printf("[INFO] Memory partitions Re-initialized\n");
+        }
+
+        buttonX += buttonWidth + buttonSpacing;
 
         if (GuiButton((Rectangle){buttonX, buttonY, buttonWidth, buttonHeight}, "Best Fit"))
         {
@@ -102,6 +111,9 @@ int main(void)
             struct process *partition = dequeue(processQueue);
             worstFit(&memory, partition);
         }
+
+        // Draw the memory layout
+        drawMemoryLayout(memory);
 
         EndDrawing();
     }

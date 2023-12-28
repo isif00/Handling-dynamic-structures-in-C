@@ -20,27 +20,31 @@ void drawMemoryPartition(struct memoryPartition *partition, int yPos)
     DrawText(TextFormat("ID: %d", partition->address), 30, yPos + 10, 18, WHITE);
     DrawText(TextFormat("Size: %d", partition->size), 30, yPos + 30, 18, WHITE);
 
-    // If the partition is not free and the countdown timer is running
+    // If the partition is not free and has an allocated process
     if (!partition->free && partition->allocatedProcess != NULL)
     {
         // Get the process information
         struct process *allocatedProcess = partition->allocatedProcess;
 
-        // Calculate the remaining time
-        double remainingTime = allocatedProcess->executionDuration - (GetTime() - allocatedProcess->arrivalTime);
-
-        // Display the remaining time
-        DrawText(TextFormat("Time: %.2fs", remainingTime), 30, yPos + 50, 12, YELLOW);
-
-        // Check if the countdown timer has reached 0
-        if (remainingTime <= 0)
+        // Check if allocatedProcess is not NULL before accessing its members
+        if (allocatedProcess != NULL)
         {
-            printf("Process with id %d has completed.\n", allocatedProcess->id);
+            // Calculate the remaining time
+            double remainingTime = allocatedProcess->executionDuration - (GetTime() - allocatedProcess->arrivalTime);
 
-            // Deallocate the process from the partition
-            partition->free = true;
-            free(partition->allocatedProcess);
-            partition->allocatedProcess = NULL;
+            // Display the remaining time
+            DrawText(TextFormat("Time: %.2fs", remainingTime), 30, yPos + 50, 12, YELLOW);
+
+            // Check if the countdown timer has reached 0
+            if (remainingTime <= 0)
+            {
+                printf("Process with id %d has completed.\n", allocatedProcess->id);
+
+                // Deallocate the process from the partition
+                partition->free = true;
+                free(partition->allocatedProcess);
+                partition->allocatedProcess = NULL;
+            }
         }
     }
 }
@@ -56,7 +60,7 @@ void drawMemoryLayout(struct memoryPartition *memory)
         drawMemoryPartition(memory, yPos);
 
         // Move to the next row
-        yPos += 71; // Add some padding between partitions
+        yPos += 71;
 
         // Move to the next partition in the linked list
         memory = memory->next;

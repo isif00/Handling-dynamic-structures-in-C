@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "../../include/utils.h"
+#include "../../include/allocation.h"
 
 struct memoryPartition *addPartition(struct memoryPartition *head, int address, int size, bool free)
 {
@@ -38,13 +39,16 @@ struct memoryPartition *addPartition(struct memoryPartition *head, int address, 
 
 void initializeMemory(struct memoryPartition **head)
 {
+    // Ensure head is initialized to NULL
+    *head = NULL;
+
     int memorySize = randomizer(2, 6);
     for (int i = 0; i < memorySize; i++)
     {
         // Generate random values for the partitions
         int address = randomizer(50, 1000);
         int size = randomizer(50, 1000);
-        int isFree = randomizer(0, 1);
+        int isFree = 1;
 
         // Adding a partition to the list
         *head = addPartition(*head, address, size, isFree);
@@ -75,4 +79,18 @@ int isMemoryFull(struct memoryPartition **head)
         current = current->next;
     }
     return 1;
+}
+
+// Function to free memory partitions
+void freeMemory(struct memoryPartition **memory)
+{
+    struct memoryPartition *currentPartition = *memory;
+    while (currentPartition != NULL)
+    {
+        struct memoryPartition *nextPartition = currentPartition->next;
+        free(currentPartition);
+        currentPartition = nextPartition;
+    }
+
+    *memory = NULL;
 }
