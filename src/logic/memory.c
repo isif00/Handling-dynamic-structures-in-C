@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "../../include/utils.h"
-#include "../../include/allocation.h"
+#include "utils.h"
+#include "allocation.h"
 
 struct memoryPartition *addPartition(struct memoryPartition *head, int address, int size, bool free)
 {

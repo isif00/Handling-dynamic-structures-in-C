@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../include/raylib.h"
-#include "../../include/memory.h"
-#include "../../include/process.h"
+#include "raylib.h"
+#include "memory.h"
+#include "process.h"
 
 // Function to draw a memory partition
-void drawMemoryPartition(struct memoryPartition *partition, int yPos)
+void drawMemoryPartition(struct memoryPartition *partition, int yPos, double actualTime)
 {
     // Set the color based on whether the partition is free or not
     Color color = partition->free ? GREEN : RED;
@@ -30,13 +30,14 @@ void drawMemoryPartition(struct memoryPartition *partition, int yPos)
         if (allocatedProcess != NULL)
         {
             // Calculate the remaining time
-            double remainingTime = allocatedProcess->executionDuration - (GetTime() - allocatedProcess->arrivalTime);
+            double TimePassed = actualTime - allocatedProcess->arrivalTime;
 
+            printf("Time passed: %.2f\n", TimePassed);
             // Display the remaining time
-            DrawText(TextFormat("Time: %.2fs", remainingTime), 30, yPos + 50, 12, YELLOW);
+            DrawText(TextFormat("Time: %.2fs", TimePassed), 30, yPos + 50, 12, YELLOW);
 
             // Check if the countdown timer has reached 0
-            if (remainingTime <= 0)
+            if (TimePassed >= allocatedProcess->executionDuration)
             {
                 printf("Process with id %d has completed.\n", allocatedProcess->id);
 
@@ -50,14 +51,14 @@ void drawMemoryPartition(struct memoryPartition *partition, int yPos)
 }
 
 // Function to draw the memory layout
-void drawMemoryLayout(struct memoryPartition *memory)
+void drawMemoryLayout(struct memoryPartition *memory, double actualTime)
 {
     int yPos = 20; // Starting y-position
 
     while (memory != NULL)
     {
         // Draw the current memory partition
-        drawMemoryPartition(memory, yPos);
+        drawMemoryPartition(memory, yPos, actualTime);
 
         // Move to the next row
         yPos += 71;

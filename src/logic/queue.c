@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../../include/process.h"
+#include "process.h"
 
 #define MAX_QUEUE_SIZE 100
 
@@ -77,7 +77,7 @@ struct process *dequeue(struct Queue *queue)
     if (queue->front > queue->rear)
         queue->front = queue->rear = -1;
 
-    printf("process with id %d dequeued from the queue\n", item->id);
+    printf("process with id %d dequeued from the queue, arrivalTime: %d, excutionDuratino: %d;\n", item->id, item->arrivalTime, item->executionDuration);
     return item;
 }
 

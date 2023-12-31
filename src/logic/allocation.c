@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../../include/memory.h"
-#include "../../include/process.h"
-#include "../../include/queue.h"
+#include "memory.h"
+#include "process.h"
+#include "queue.h"
 
 #define PARTITION_MIN_SIZE 50
 #define PARTITION_MAX_SIZE 1000
@@ -39,7 +39,7 @@ void firstFit(struct memoryPartition **memory, struct process *currentProcess)
                 currentPartition->next = newPartition;
             }
 
-            printf("Process with id %d allocated to memory partition starting at address %d\n", currentProcess->id, currentPartition->address);
+            printf("Process with id %d allocated to memory partition starting at address %d, arrivaltime: %d\n", currentProcess->id, currentPartition->address, currentProcess->arrivalTime);
             return;
         }
 

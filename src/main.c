@@ -2,16 +2,16 @@
 #include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
-#include "../include/raylib.h"
-#include "../include/memory.h"
-#include "../include/queue.h"
-#include "../include/process.h"
-#include "../include/utils.h"
-#include "../include/allocation.h"
-#include "../include/memoryGr.h"
+#include "raylib.h"
+#include "memory.h"
+#include "queue.h"
+#include "process.h"
+#include "utils.h"
+#include "allocation.h"
+#include "memoryGr.h"
 
 #define RAYGUI_IMPLEMENTATION
-#include "../include/raygui.h"
+#include "raygui.h"
 
 int main(void)
 {
@@ -60,6 +60,7 @@ int main(void)
 
     const int screenWidth = 800;
     const int screenHeight = 1000;
+    double currentTime = 0.0;
 
     InitWindow(screenWidth, screenHeight, "Memory Simulation");
     SetTargetFPS(60);
@@ -93,6 +94,7 @@ int main(void)
         if (GuiButton((Rectangle){buttonX, buttonY, buttonWidth, buttonHeight}, "Best Fit"))
         {
             struct process *partition = dequeue(processQueue);
+            currentTime += GetTime();
             bestFit(&memory, partition);
         }
 
@@ -113,7 +115,7 @@ int main(void)
         }
 
         // Draw the memory layout
-        drawMemoryLayout(memory);
+        drawMemoryLayout(memory, currentTime);
 
         EndDrawing();
     }

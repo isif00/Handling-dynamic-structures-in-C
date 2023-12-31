@@ -4,6 +4,9 @@ SRC_DIR = src
 LOGIC_DIR = $(SRC_DIR)/logic
 GRAPHIC_DIR = $(SRC_DIR)/graphic
 
+INCLUDE_DIR = include
+
+HEADER = $(wildcard $(INCLUDE_DIR)/*.h)
 LOGIC_SRCS = $(wildcard $(LOGIC_DIR)/*.c)
 GRAPHIC_SRCS = $(wildcard $(GRAPHIC_DIR)/*.c)
 MAIN_SRC = $(SRC_DIR)/main.c
@@ -23,17 +26,17 @@ all: $(LOGIC_OBJS) $(GRAPHIC_OBJS) $(MAIN_OBJ)
 debug: all
 	gdb ./$(BUILD_DIR)/main
 
-$(BUILD_DIR)/%.o: $(LOGIC_DIR)/%.c
-	mkdir -p $(BUILD_DIR)
-	gcc -c $(DEBUG_FLAGS) $< -o $@
+$(BUILD_DIR)/%.o: $(LOGIC_DIR)/%.c | $(BUILD_DIR)
+	gcc -c $(DEBUG_FLAGS) -I$(INCLUDE_DIR) $< -o $@
 
-$(BUILD_DIR)/%.o: $(GRAPHIC_DIR)/%.c
-	mkdir -p $(BUILD_DIR)
-	gcc -c $(DEBUG_FLAGS) $< -o $@
+$(BUILD_DIR)/%.o: $(GRAPHIC_DIR)/%.c | $(BUILD_DIR)
+	gcc -c $(DEBUG_FLAGS) -I$(INCLUDE_DIR) $< -o $@
 
-$(BUILD_DIR)/main.o: $(MAIN_SRC)
+$(BUILD_DIR)/main.o: $(MAIN_SRC) | $(BUILD_DIR)
+	gcc -c $(DEBUG_FLAGS) -I$(INCLUDE_DIR) $< -o $@
+
+$(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
-	gcc -c $(DEBUG_FLAGS) $< -o $@
 
 clean:
 	rm -rf $(BUILD_DIR)
