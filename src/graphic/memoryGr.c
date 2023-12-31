@@ -5,7 +5,7 @@
 #include "process.h"
 
 // Function to draw a memory partition
-void drawMemoryPartition(struct memoryPartition *partition, int yPos, double actualTime)
+void drawMemoryPartition(struct memoryPartition *partition, int yPos, bool *timerState)
 {
     // Set the color based on whether the partition is free or not
     Color color = partition->free ? GREEN : RED;
@@ -18,7 +18,7 @@ void drawMemoryPartition(struct memoryPartition *partition, int yPos, double act
 
     // Draw the text indicating the partition details with vertical spacing
     DrawText(TextFormat("ID: %d", partition->address), 30, yPos + 10, 18, WHITE);
-    DrawText(TextFormat("Size: %d", partition->size), 30, yPos + 30, 18, WHITE);
+    DrawText(TextFormat("SIZE: %d", partition->size), 30, yPos + 30, 18, WHITE);
 
     // If the partition is not free and has an allocated process
     if (!partition->free && partition->allocatedProcess != NULL)
@@ -29,36 +29,41 @@ void drawMemoryPartition(struct memoryPartition *partition, int yPos, double act
         // Check if allocatedProcess is not NULL before accessing its members
         if (allocatedProcess != NULL)
         {
-            // Calculate the remaining time
-            double TimePassed = actualTime - allocatedProcess->arrivalTime;
-
-            printf("Time passed: %.2f\n", TimePassed);
-            // Display the remaining time
-            DrawText(TextFormat("Time: %.2fs", TimePassed), 30, yPos + 50, 12, YELLOW);
-
-            // Check if the countdown timer has reached 0
-            if (TimePassed >= allocatedProcess->executionDuration)
+            // Calculate the remaining time based on the partition's timerState
+            if (partition->timerState)
             {
-                printf("Process with id %d has completed.\n", allocatedProcess->id);
+                double currentTime = GetTime();
+                double elapsedTime = currentTime - partition->startTime;
+                double remainingTime = allocatedProcess->executionDuration - elapsedTime;
+                printf("Time passed: %.2f\n", remainingTime);
 
-                // Deallocate the process from the partition
-                partition->free = true;
-                free(partition->allocatedProcess);
-                partition->allocatedProcess = NULL;
+                // Display the remaining time
+                DrawText(TextFormat("Time: %.2fs", remainingTime), 30, yPos + 50, 12, YELLOW);
+                if (remainingTime <= 0)
+                {
+                    printf("Process with id %d has completed.\n", allocatedProcess->id);
+
+                    // Deallocate the process from the partition
+                    partition->free = true;
+                    free(partition->allocatedProcess);
+                    partition->allocatedProcess = NULL;
+
+                    partition->timerState = false;
+                    printf("timerState: %d\n", partition->timerState);
+                }
             }
         }
     }
 }
 
 // Function to draw the memory layout
-void drawMemoryLayout(struct memoryPartition *memory, double actualTime)
+void drawMemoryLayout(struct memoryPartition *memory, bool *timerState)
 {
-    int yPos = 20; // Starting y-position
-
+    int yPos = 20;
     while (memory != NULL)
     {
         // Draw the current memory partition
-        drawMemoryPartition(memory, yPos, actualTime);
+        drawMemoryPartition(memory, yPos, timerState);
 
         // Move to the next row
         yPos += 71;

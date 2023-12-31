@@ -4,6 +4,7 @@
 #include "utils.h"
 #include "allocation.h"
 
+// Function to add a partition to the list
 struct memoryPartition *addPartition(struct memoryPartition *head, int address, int size, bool free)
 {
     struct memoryPartition *newPartition = (struct memoryPartition *)malloc(sizeof(struct memoryPartition));
@@ -16,7 +17,10 @@ struct memoryPartition *addPartition(struct memoryPartition *head, int address, 
     newPartition->address = address;
     newPartition->size = size;
     newPartition->free = free;
+    newPartition->timerState = false;
+    newPartition->allocatedProcess = NULL;
     newPartition->next = NULL;
+
     printf("Partition added: address: %d, size: %d, free: %d\n", newPartition->address, newPartition->size, newPartition->free);
 
     if (head == NULL)

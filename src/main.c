@@ -18,6 +18,8 @@ int main(void)
     // seed the random number generator
     srand(time(NULL));
 
+    // timer state
+    bool timerState = false;
     // memory initialization
     struct memoryPartition *memory = NULL;
     initializeMemory(&memory);
@@ -66,8 +68,6 @@ int main(void)
     SetTargetFPS(60);
     while (!WindowShouldClose())
     {
-        // Update
-
         // Draw
         BeginDrawing();
         ClearBackground(RAYWHITE);
@@ -94,7 +94,7 @@ int main(void)
         if (GuiButton((Rectangle){buttonX, buttonY, buttonWidth, buttonHeight}, "Best Fit"))
         {
             struct process *partition = dequeue(processQueue);
-            currentTime += GetTime();
+            timerState = true;
             bestFit(&memory, partition);
         }
 
@@ -103,6 +103,7 @@ int main(void)
         if (GuiButton((Rectangle){buttonX, buttonY, buttonWidth, buttonHeight}, "First Fit"))
         {
             struct process *partition = dequeue(processQueue);
+            timerState = true;
             firstFit(&memory, partition);
         }
 
@@ -115,7 +116,7 @@ int main(void)
         }
 
         // Draw the memory layout
-        drawMemoryLayout(memory, currentTime);
+        drawMemoryLayout(memory, &timerState);
 
         EndDrawing();
     }

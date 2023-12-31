@@ -3,6 +3,7 @@
 #include "memory.h"
 #include "process.h"
 #include "queue.h"
+#include "raylib.h"
 
 #define PARTITION_MIN_SIZE 50
 #define PARTITION_MAX_SIZE 1000
@@ -24,7 +25,9 @@ void firstFit(struct memoryPartition **memory, struct process *currentProcess)
         {
             // Allocate the process to the current partition
             currentPartition->free = false;
+            currentPartition->timerState = true;
             currentPartition->allocatedProcess = currentProcess;
+            currentPartition->startTime = GetTime();
 
             // Check if we need to create a new partition for the remaining memory
             if (currentPartition->size > currentProcess->size)
@@ -33,13 +36,13 @@ void firstFit(struct memoryPartition **memory, struct process *currentProcess)
                 newPartition->address = currentPartition->address + currentProcess->size;
                 newPartition->size = currentPartition->size - currentProcess->size;
                 newPartition->free = true;
-                newPartition->allocatedProcess = NULL; // Initialize to NULL for the new partition
+                newPartition->allocatedProcess = NULL;
                 newPartition->next = currentPartition->next;
                 currentPartition->size = currentProcess->size;
                 currentPartition->next = newPartition;
             }
 
-            printf("Process with id %d allocated to memory partition starting at address %d, arrivaltime: %d\n", currentProcess->id, currentPartition->address, currentProcess->arrivalTime);
+            printf("Process with id %d allocated to memory partition starting at address %d\n", currentProcess->id, currentPartition->address);
             return;
         }
 
@@ -82,7 +85,9 @@ void bestFit(struct memoryPartition **memory, struct process *currentProcess)
     {
         // Allocate the process to the best fit partition
         bestFitPartition->free = false;
+        bestFitPartition->timerState = true;
         bestFitPartition->allocatedProcess = currentProcess;
+        bestFitPartition->startTime = GetTime();
 
         // Check if we need to create a new partition for the remaining memory
         if (bestFitPartition->size > currentProcess->size)
@@ -91,7 +96,7 @@ void bestFit(struct memoryPartition **memory, struct process *currentProcess)
             newPartition->address = bestFitPartition->address + currentProcess->size;
             newPartition->size = bestFitPartition->size - currentProcess->size;
             newPartition->free = true;
-            newPartition->allocatedProcess = NULL; // Initialize to NULL for the new partition
+            newPartition->allocatedProcess = NULL;
             newPartition->next = bestFitPartition->next;
             bestFitPartition->size = currentProcess->size;
             bestFitPartition->next = newPartition;
@@ -139,7 +144,9 @@ void worstFit(struct memoryPartition **memory, struct process *currentProcess)
     {
         // Allocate the process to the worst fit partition
         worstFitPartition->free = false;
+        worstFitPartition->timerState = true;
         worstFitPartition->allocatedProcess = currentProcess;
+        worstFitPartition->startTime = GetTime();
 
         // Check if we need to create a new partition for the remaining memory
         if (worstFitPartition->size > currentProcess->size)
@@ -148,7 +155,7 @@ void worstFit(struct memoryPartition **memory, struct process *currentProcess)
             newPartition->address = worstFitPartition->address + currentProcess->size;
             newPartition->size = worstFitPartition->size - currentProcess->size;
             newPartition->free = true;
-            newPartition->allocatedProcess = NULL; // Initialize to NULL for the new partition
+            newPartition->allocatedProcess = NULL;
             newPartition->next = worstFitPartition->next;
             worstFitPartition->size = currentProcess->size;
             worstFitPartition->next = newPartition;

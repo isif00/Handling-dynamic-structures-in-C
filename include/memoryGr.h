@@ -1,7 +1,9 @@
 #ifndef MEMORYGR_H
 #define MEMORYGR_H
 
-void drawMemoryPartition(struct memoryPartition *partition, int yPos, double actualTime);
-void drawMemoryLayout(struct memoryPartition *memory, double actualTime);
+#include <stdbool.h>
+
+void drawMemoryPartition(struct memoryPartition *partition, int yPos, bool *timerState);
+void drawMemoryLayout(struct memoryPartition *memory, bool *timerState);
 
 #endif

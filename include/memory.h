@@ -10,6 +10,8 @@ struct memoryPartition
     bool free;
     struct process *allocatedProcess;
     struct memoryPartition *next;
+    bool timerState;
+    double startTime;
 };
 
 struct memoryPartition *addPartition(struct memoryPartition *head, int address, int size, bool free);
