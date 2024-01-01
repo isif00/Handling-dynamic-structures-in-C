@@ -20,6 +20,9 @@ int main(void)
 
     // timer state
     bool timerState = false;
+
+    // active button
+    int firstPartButton = 1;
     // memory initialization
     struct memoryPartition *memory = NULL;
     initializeMemory(&memory);
@@ -31,31 +34,6 @@ int main(void)
     printf("[INFO] Queue processes initialized\n");
 
     printQueue(processQueue);
-
-    // // Use firstFit function
-    // printf("[INFO] Using first fit algorithm\n");
-    // struct process *partition = dequeue(processQueue);
-    // firstFit(&memory, partition);
-
-    // // Use bestFit function
-    // printf("[INFO] Using best fit algorithm\n");
-    // bestFit(&memory, processQueue);
-
-    // // Use worstFit function
-    // printf("[INFO] Using worst fit algorithm\n");
-    // worstFit(&memory, processQueue);
-
-    // // Use firstFitUntilFull function
-    // printf("[INFO] Using first fit until full algorithm\n");
-    // firstFitUntilFull(&memory, processQueue);
-
-    // // Use bestFitUntilFull function
-    // printf("[INFO] Using best fit until full algorithm\n");
-    // bestFitUntilFull(&memory, processQueue);
-
-    // // Use worstFitUntilFull function
-    // printf("[INFO] Using worst fit until full algorithm\n");
-    // worstFitUntilFull(&memory, processQueue);
 
     printMemory(memory);
     printQueue(processQueue);
@@ -72,49 +50,106 @@ int main(void)
         BeginDrawing();
         ClearBackground(RAYWHITE);
 
-        // Draw the allocations method's buttons
+        // Draw the menu buttons
         int buttonWidth = 150;
         int buttonHeight = 40;
         int buttonSpacing = 20;
-        int buttonX = (screenWidth - (4 * buttonWidth + 2 * buttonSpacing)) / 2;
-        int buttonY = screenHeight - 60;
 
-        if (GuiButton((Rectangle){buttonX, buttonY, buttonWidth, buttonHeight}, "Re-initialize Memory"))
+        // Draw the Parts buttons
+        float buttonX = (screenWidth - (2 * buttonWidth + 2 * buttonSpacing)) / 2;
+        int buttony = screenHeight - 180;
+
+        // Draw the method's buttons
+        float methodsbuttonX = (screenWidth - (4 * buttonWidth + 2 * buttonSpacing)) / 2;
+        int methodsbuttonY = screenHeight - 120;
+
+        // Draw the tillFull method's buttons
+        float tillFullMethodsbuttonX = (screenWidth - (3 * buttonWidth + 2 * buttonSpacing)) / 2;
+        int tillFullMethodsbuttonY = screenHeight - 60;
+
+        if (GuiButton((Rectangle){buttonX, buttony, buttonWidth, buttonHeight}, "Part 1"))
         {
-            // Free the memory partitions
-            freeMemory(&memory);
-
-            // Initialize new memory partitions
-            initializeMemory(&memory);
-            printf("[INFO] Memory partitions Re-initialized\n");
+            firstPartButton = 1;
         }
 
         buttonX += buttonWidth + buttonSpacing;
 
-        if (GuiButton((Rectangle){buttonX, buttonY, buttonWidth, buttonHeight}, "Best Fit"))
+        if (GuiButton((Rectangle){buttonX, buttony, buttonWidth, buttonHeight}, "Part 2"))
         {
-            struct process *partition = dequeue(processQueue);
-            timerState = true;
-            bestFit(&memory, partition);
+            firstPartButton = 0;
         }
 
-        buttonX += buttonWidth + buttonSpacing;
-
-        if (GuiButton((Rectangle){buttonX, buttonY, buttonWidth, buttonHeight}, "First Fit"))
+        if (firstPartButton)
         {
-            struct process *partition = dequeue(processQueue);
-            timerState = true;
-            firstFit(&memory, partition);
+            // Draw the method's buttons
+            if (GuiButton((Rectangle){methodsbuttonX, methodsbuttonY, buttonWidth, buttonHeight}, "Re-initialize Memory"))
+            {
+                // Free the memory partitions
+                freeMemory(&memory);
+
+                // Initialize new memory partitions
+                initializeMemory(&memory);
+                printf("[INFO] Memory partitions Re-initialized\n");
+            }
+
+            methodsbuttonX += buttonWidth + buttonSpacing;
+
+            if (GuiButton((Rectangle){methodsbuttonX, methodsbuttonY, buttonWidth, buttonHeight}, "Best Fit"))
+            {
+                struct process *partition = dequeue(processQueue);
+                timerState = true;
+                bestFit(&memory, partition);
+            }
+
+            methodsbuttonX += buttonWidth + buttonSpacing;
+
+            if (GuiButton((Rectangle){methodsbuttonX, methodsbuttonY, buttonWidth, buttonHeight}, "First Fit"))
+            {
+                struct process *partition = dequeue(processQueue);
+                timerState = true;
+                firstFit(&memory, partition);
+            }
+
+            methodsbuttonX += buttonWidth + buttonSpacing;
+
+            if (GuiButton((Rectangle){methodsbuttonX, methodsbuttonY, buttonWidth, buttonHeight}, "Worst Fit"))
+            {
+                struct process *partition = dequeue(processQueue);
+                worstFit(&memory, partition);
+            }
+
+            // Draw the tillFull method's buttons
+            if (GuiButton((Rectangle){tillFullMethodsbuttonX, tillFullMethodsbuttonY, buttonWidth, buttonHeight}, "Best Fit until full"))
+            {
+                timerState = true;
+                bestFitUntilFull(&memory, processQueue);
+            }
+
+            tillFullMethodsbuttonX += buttonWidth + buttonSpacing;
+
+            if (GuiButton((Rectangle){tillFullMethodsbuttonX, tillFullMethodsbuttonY, buttonWidth, buttonHeight}, "First Fit until full"))
+            {
+                timerState = true;
+                firstFitUntilFull(&memory, processQueue);
+            }
+
+            tillFullMethodsbuttonX += buttonWidth + buttonSpacing;
+
+            if (GuiButton((Rectangle){tillFullMethodsbuttonX, tillFullMethodsbuttonY, buttonWidth, buttonHeight}, "Worst Fit until full"))
+            {
+                timerState = true;
+                worstFitUntilFull(&memory, processQueue);
+            }
         }
-
-        buttonX += buttonWidth + buttonSpacing;
-
-        if (GuiButton((Rectangle){buttonX, buttonY, buttonWidth, buttonHeight}, "Worst Fit"))
+        else if (!firstPartButton)
         {
-            struct process *partition = dequeue(processQueue);
-            worstFit(&memory, partition);
-        }
 
+            if (GuiButton((Rectangle){methodsbuttonX, methodsbuttonY, buttonWidth, buttonHeight}, "under sonctruction"))
+            {
+                struct process *partition = dequeue(processQueue);
+                worstFit(&memory, partition);
+            }
+        }
         // Draw the memory layout
         drawMemoryLayout(memory, &timerState);
 
