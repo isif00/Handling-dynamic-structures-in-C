@@ -9,7 +9,9 @@
 #include "utils.h"
 #include "allocation.h"
 #include "memoryGr.h"
+#include "queueGr.h"
 
+#define MAX_PROCESSES 10
 #define RAYGUI_IMPLEMENTATION
 #include "raygui.h"
 
@@ -30,7 +32,12 @@ int main(void)
 
     // initialize process queue
     struct Queue *processQueue = createQueue();
-    initializeProcessesQueue(processQueue);
+
+    // Create an array to store processes
+    struct process processArray[MAX_PROCESSES];
+
+    initializeProcessesQueue(processQueue, processArray);
+
     printf("[INFO] Queue processes initialized\n");
 
     printQueue(processQueue);
@@ -38,7 +45,7 @@ int main(void)
     printMemory(memory);
     printQueue(processQueue);
 
-    const int screenWidth = 800;
+    const int screenWidth = 1000;
     const int screenHeight = 1000;
     double currentTime = 0.0;
 
@@ -150,6 +157,8 @@ int main(void)
                 worstFit(&memory, partition);
             }
         }
+        drawVerticalQueue(processQueue, 600, processArray);
+
         // Draw the memory layout
         drawMemoryLayout(memory, &timerState);
 

@@ -121,3 +121,15 @@ void printQueue(struct Queue *queue)
                queue->array[i]->executionDuration, queue->array[i]->size);
     }
 }
+
+// Function to get the size of the queue
+int size(struct Queue *queue)
+{
+    if (isEmpty(queue))
+    {
+        printf("Queue is empty\n");
+        return 0;
+    }
+
+    return (queue->rear - queue->front + 1);
+}

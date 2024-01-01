@@ -18,5 +18,6 @@ struct process *dequeue(struct Queue *queue);
 struct process *front(struct Queue *queue);
 struct process *rear(struct Queue *queue);
 void printQueue(struct Queue *queue);
+int size(struct Queue *queue);
 
 #endif

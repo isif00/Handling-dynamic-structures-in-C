@@ -5,7 +5,7 @@
 #include "memory.h"
 
 int randomizer(int min, int max);
-void initializeProcessesQueue(struct Queue *queue);
+void initializeProcessesQueue(struct Queue *queue, struct process *processArray);
 void firstFitUntilFull(struct memoryPartition **memory, struct Queue *processQueue);
 void bestFitUntilFull(struct memoryPartition **memory, struct Queue *processQueue);
 void worstFitUntilFull(struct memoryPartition **memory, struct Queue *processQueue);

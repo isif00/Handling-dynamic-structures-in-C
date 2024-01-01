@@ -5,15 +5,18 @@
 #include "memory.h"
 #include "allocation.h"
 
+#define MAX_PROCESSES 10
+
 int randomizer(int min, int max)
 {
     return (rand() % (max - min + 1)) + min;
 }
 
-void initializeProcessesQueue(struct Queue *queue)
+void initializeProcessesQueue(struct Queue *queue, struct process *processArray)
 {
-    int numProcesses = randomizer(5, 10);
-    for (int i = 0; i < numProcesses; i++)
+    int numProcesses = randomizer(3, 7);
+
+    for (int i = 0; i < numProcesses && i < MAX_PROCESSES; i++)
     {
         // Generate random values for the process
         int id = randomizer(50, 1000);
@@ -24,6 +27,9 @@ void initializeProcessesQueue(struct Queue *queue)
         // Create a process and enqueue it
         struct process *newProcess = createProcess(id, arrivalTime, executionDuration, size);
         enqueue(queue, newProcess);
+
+        // Store the newProcess in the array
+        processArray[i] = *newProcess;
     }
 }
 
