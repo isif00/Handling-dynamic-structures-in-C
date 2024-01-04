@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include "raylib.h"
 #include "memory.h"
 #include "process.h"
@@ -48,8 +49,13 @@ void drawMemoryPartition(struct memoryPartition *partition, int yPos, bool *time
                     free(partition->allocatedProcess);
                     partition->allocatedProcess = NULL;
 
+                    // Merge the partition with the next partition if it is free
+                    if (partition->next != NULL && partition->next->free)
+                    {
+                        partition->size += partition->next->size;
+                        partition->next = partition->next->next;
+                    }
                     partition->timerState = false;
-                    printf("timerState: %d\n", partition->timerState);
                 }
             }
         }
@@ -59,7 +65,8 @@ void drawMemoryPartition(struct memoryPartition *partition, int yPos, bool *time
 // Function to draw the memory layout
 void drawMemoryLayout(struct memoryPartition *memory, bool *timerState)
 {
-    int yPos = 20;
+    DrawText("Memory Layout", 20, 20, 25, BLACK);
+    int yPos = 65;
     while (memory != NULL)
     {
         // Draw the current memory partition

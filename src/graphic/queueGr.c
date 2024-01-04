@@ -14,7 +14,7 @@ void drawVerticalQueue(struct Queue *queue, int yPos, struct process *processArr
     int totalWidth = queueSize * 140 + 2 * 22;
 
     // Calculate the starting X position to center the table
-    int xPos = (1000 - totalWidth) / 2;
+    int xPos = (2000 - totalWidth) / 2;
 
     // Draw processes in the queue
     for (int i = queue->front; i <= queue->rear; i++)

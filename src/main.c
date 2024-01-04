@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <unistd.h>
 #include "raylib.h"
 #include "memory.h"
 #include "queue.h"
@@ -45,8 +44,8 @@ int main(void)
     printMemory(memory);
     printQueue(processQueue);
 
-    const int screenWidth = 1000;
-    const int screenHeight = 1000;
+    const int screenWidth = 1600;
+    const int screenHeight = 900;
     double currentTime = 0.0;
 
     InitWindow(screenWidth, screenHeight, "Memory Simulation");
@@ -157,7 +156,7 @@ int main(void)
                 worstFit(&memory, partition);
             }
         }
-        drawVerticalQueue(processQueue, 600, processArray);
+        drawVerticalQueue(processQueue, 500, processArray);
 
         // Draw the memory layout
         drawMemoryLayout(memory, &timerState);
