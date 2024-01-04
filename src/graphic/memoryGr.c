@@ -66,7 +66,9 @@ void drawMemoryPartition(struct memoryPartition *partition, int yPos, bool *time
 void drawMemoryLayout(struct memoryPartition *memory, bool *timerState)
 {
     DrawText("Memory Layout", 20, 20, 25, BLACK);
+
     int yPos = 65;
+
     while (memory != NULL)
     {
         // Draw the current memory partition
@@ -77,5 +79,57 @@ void drawMemoryLayout(struct memoryPartition *memory, bool *timerState)
 
         // Move to the next partition in the linked list
         memory = memory->next;
+    }
+}
+
+void drawMemoryTable(struct memoryPartition *memory)
+{
+    int tableX = 870;
+    int tableY = 65;
+    int rowHeight = 40;
+    int colWidth = 170;
+    int fontSize = 20;
+    int rowSpacing = 5;
+    int colSpacing = 5;
+
+    // Draw table header
+    DrawText("Memory Table", tableX, 30, fontSize, BLACK);
+
+    DrawRectangle(tableX - 10, 64, 4 * colWidth + 3 * colSpacing + 20, rowHeight, GRAY);
+    DrawRectangleLinesEx((Rectangle){tableX - 10, 64, 4 * colWidth + 3 * colSpacing + 20, rowHeight}, 2, BLACK);
+
+    DrawText("ID", tableX, 75, fontSize, BLACK);
+
+    DrawText("Size", tableX + colWidth + colSpacing, 75, fontSize, BLACK);
+
+    DrawText("Free", tableX + 2 * (colWidth + colSpacing), 75, fontSize, BLACK);
+
+    DrawText("Adress", tableX + 3 * (colWidth + colSpacing), 75, fontSize, BLACK);
+
+    // Draw table rows
+    struct memoryPartition *currentPartition = memory;
+    int rowIndex = 1;
+
+    while (currentPartition != NULL)
+    {
+        // Calculate row position
+        int rowY = (tableY + rowSpacing * 2) + rowIndex * (rowHeight + rowSpacing);
+
+        // Draw background for each row
+        DrawRectangle(tableX - 10, rowY - 10, 4 * colWidth + 3 * colSpacing + 20, rowHeight, GRAY);
+        DrawRectangleLinesEx((Rectangle){tableX - 10, rowY - 10, 4 * colWidth + 3 * colSpacing + 20, rowHeight}, 2, BLACK);
+
+        // Draw row content with borderlines
+        DrawText(TextFormat("%d", currentPartition->address), tableX, rowY, fontSize, BLACK);
+
+        DrawText(TextFormat("%d", currentPartition->size), tableX + colWidth + colSpacing, rowY, fontSize, BLACK);
+
+        DrawText(currentPartition->free ? "Yes" : "No", tableX + 2 * (colWidth + colSpacing), rowY, fontSize, BLACK);
+
+        DrawText(TextFormat("%p", (void *)currentPartition), tableX + 3 * (colWidth + colSpacing), rowY, fontSize, BLACK);
+
+        // Move to the next partition
+        currentPartition = currentPartition->next;
+        rowIndex++;
     }
 }

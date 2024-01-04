@@ -161,6 +161,8 @@ int main(void)
         // Draw the memory layout
         drawMemoryLayout(memory, &timerState);
 
+        // Draw the memory table
+        drawMemoryTable(memory);
         EndDrawing();
     }
 
