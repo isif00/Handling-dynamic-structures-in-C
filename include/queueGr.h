@@ -3,6 +3,6 @@
 
 #include "queue.h"
 
-void drawVerticalQueue(struct Queue *queue, int yPos, struct process *processArray);
+void drawVerticalQueue(struct Queue *queue, struct process *processArray);
 
 #endif

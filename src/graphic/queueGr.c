@@ -5,7 +5,7 @@
 #include "process.h"
 #include "queue.h"
 
-void drawVerticalQueue(struct Queue *queue, int yPos, struct process *processArray)
+void drawVerticalQueue(struct Queue *queue, struct process *processArray)
 {
     int processSpacing = 122;
     int queueSize = size(queue);
@@ -13,8 +13,9 @@ void drawVerticalQueue(struct Queue *queue, int yPos, struct process *processArr
     // Calculate the total width of the table
     int totalWidth = queueSize * 140 + 2 * 22;
 
-    // Calculate the starting X position to center the table
-    int xPos = (2000 - totalWidth) / 2;
+    DrawText("Queue Processes", 870, 470, 25, BLACK);
+    int yPos = 500;
+    int xPos = 870;
 
     // Draw processes in the queue
     for (int i = queue->front; i <= queue->rear; i++)
@@ -41,7 +42,7 @@ void drawVerticalQueue(struct Queue *queue, int yPos, struct process *processArr
         // check if the queue is empty
         if (isEmpty(queue))
         {
-            DrawText("Queue is empty", xPos - 190, 700, 35, RED);
+            DrawText("Queue is empty", 870, 510, 30, RED);
             return;
         }
     }

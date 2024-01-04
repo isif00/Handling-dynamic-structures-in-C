@@ -9,6 +9,8 @@
 #include "allocation.h"
 #include "memoryGr.h"
 #include "queueGr.h"
+#include "stack.h"
+#include "stackGr.h"
 
 #define MAX_PROCESSES 10
 #define RAYGUI_IMPLEMENTATION
@@ -43,6 +45,12 @@ int main(void)
 
     printMemory(memory);
     printQueue(processQueue);
+
+    // Stack initialization
+    struct Stack queuesStack;
+    initializeStack(&queuesStack);
+    initializeQueuesStack(&queuesStack);
+    printStack(&queuesStack);
 
     const int screenWidth = 1600;
     const int screenHeight = 900;
@@ -149,6 +157,7 @@ int main(void)
         }
         else if (!firstPartButton)
         {
+            // Draw the queues stack
 
             if (GuiButton((Rectangle){methodsbuttonX, methodsbuttonY, buttonWidth, buttonHeight}, "under sonctruction"))
             {
@@ -156,7 +165,8 @@ int main(void)
                 worstFit(&memory, partition);
             }
         }
-        drawVerticalQueue(processQueue, 500, processArray);
+        drawVerticalQueue(processQueue, processArray);
+        drawVerticalStack(&queuesStack);
 
         // Draw the memory layout
         drawMemoryLayout(memory, &timerState);

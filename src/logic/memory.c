@@ -46,7 +46,7 @@ void initializeMemory(struct memoryPartition **head)
     // Ensure head is initialized to NULL
     *head = NULL;
 
-    int memorySize = randomizer(2, 6);
+    int memorySize = randomizer(2, 5);
     for (int i = 0; i < memorySize; i++)
     {
         // Generate random values for the partitions

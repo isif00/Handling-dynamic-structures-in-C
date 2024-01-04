@@ -93,7 +93,7 @@ void drawMemoryTable(struct memoryPartition *memory)
     int colSpacing = 5;
 
     // Draw table header
-    DrawText("Memory Table", tableX, 30, fontSize, BLACK);
+    DrawText("Memory Table", tableX, 30, 25, BLACK);
 
     DrawRectangle(tableX - 10, 64, 4 * colWidth + 3 * colSpacing + 20, rowHeight, GRAY);
     DrawRectangleLinesEx((Rectangle){tableX - 10, 64, 4 * colWidth + 3 * colSpacing + 20, rowHeight}, 2, BLACK);

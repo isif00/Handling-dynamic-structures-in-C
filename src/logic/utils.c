@@ -4,17 +4,20 @@
 #include "queue.h"
 #include "memory.h"
 #include "allocation.h"
+#include "stack.h"
 
 #define MAX_PROCESSES 10
 
+// Function to generate a random number
 int randomizer(int min, int max)
 {
     return (rand() % (max - min + 1)) + min;
 }
 
+// Function to create a process
 void initializeProcessesQueue(struct Queue *queue, struct process *processArray)
 {
-    int numProcesses = randomizer(3, 7);
+    int numProcesses = randomizer(3, 5);
 
     for (int i = 0; i < numProcesses && i < MAX_PROCESSES; i++)
     {
@@ -33,12 +36,13 @@ void initializeProcessesQueue(struct Queue *queue, struct process *processArray)
     }
 }
 
-void firstFitUntilFull(struct memoryPartition **memory, struct Queue *processQueue)
+// Function to print the queue
+void firstFitUntilFull(struct memoryPartition **memory, struct Queue *newQueue)
 {
     // Keep allocating processes until memory is full
-    while (!isMemoryFull(memory) && !isEmpty(processQueue))
+    while (!isMemoryFull(memory) && !isEmpty(newQueue))
     {
-        struct process *currentProcess = dequeue(processQueue);
+        struct process *currentProcess = dequeue(newQueue);
         firstFit(memory, currentProcess);
     }
 
@@ -52,12 +56,13 @@ void firstFitUntilFull(struct memoryPartition **memory, struct Queue *processQue
     }
 }
 
-void bestFitUntilFull(struct memoryPartition **memory, struct Queue *processQueue)
+// Function to print the queue
+void bestFitUntilFull(struct memoryPartition **memory, struct Queue *newQueue)
 {
     // Keep allocating processes until memory is full
-    while (!isMemoryFull(memory) && !isEmpty(processQueue))
+    while (!isMemoryFull(memory) && !isEmpty(newQueue))
     {
-        struct process *currentProcess = dequeue(processQueue);
+        struct process *currentProcess = dequeue(newQueue);
         bestFit(memory, currentProcess);
     }
 
@@ -71,12 +76,13 @@ void bestFitUntilFull(struct memoryPartition **memory, struct Queue *processQueu
     }
 }
 
-void worstFitUntilFull(struct memoryPartition **memory, struct Queue *processQueue)
+// Function to print the queue
+void worstFitUntilFull(struct memoryPartition **memory, struct Queue *newQueue)
 {
     // Keep allocating processes until memory is full
-    while (!isMemoryFull(memory) && !isEmpty(processQueue))
+    while (!isMemoryFull(memory) && !isEmpty(newQueue))
     {
-        struct process *currentProcess = dequeue(processQueue);
+        struct process *currentProcess = dequeue(newQueue);
         worstFit(memory, currentProcess);
     }
 
@@ -87,5 +93,18 @@ void worstFitUntilFull(struct memoryPartition **memory, struct Queue *processQue
     else
     {
         printf("Process queue is empty. All processes allocated successfully.\n");
+    }
+}
+
+void initializeQueuesStack(struct Stack *stack)
+{
+    for (int i = 0; i < 3; i++)
+    {
+        // Create a new queue and push it onto the stack
+        struct Queue *newQueue = createQueue();
+        struct process processArray[MAX_PROCESSES];
+        initializeProcessesQueue(newQueue, processArray);
+
+        push(stack, newQueue);
     }
 }
