@@ -104,7 +104,10 @@ void initializeQueuesStack(struct Stack *stack)
         struct Queue *newQueue = createQueue();
         struct process processArray[MAX_PROCESSES];
         initializeProcessesQueue(newQueue, processArray);
+        front(newQueue);
 
         push(stack, newQueue);
+
+        printStack(stack);
     }
 }

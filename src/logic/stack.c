@@ -10,9 +10,9 @@ struct Stack
 };
 
 // Function to initialize an empty stack
-void initializeStack(struct Stack *stack)
+void initializeStack(struct Stack *stack, struct Queue *highPriorityQueue)
 {
-    stack->data = NULL;
+    stack->data = highPriorityQueue;
     stack->next = NULL;
 }
 
@@ -30,23 +30,24 @@ void push(struct Stack *stack, struct Queue *queue)
     newNode->data = queue;
     newNode->next = stack->next;
     stack->next = newNode;
+    printf("Queue at address %p pushed into the stack\n", (void *)queue);
 }
 
 // Function to pop a queue reference from the stack
 struct Queue *pop(struct Stack *stack)
 {
-    // Make sure stack is full
+    // Make sure stack is not empty
     if (isStackEmpty(stack))
     {
         return NULL;
     }
 
-    struct Queue *poppedQueue = stack->next->data;
+    struct Queue *poppedQueue = stack->next->data; // Access the data of the top element
     struct Stack *temp = stack->next;
 
-    stack->next = temp->next;
+    stack->next = temp->next; // Update the next pointer to the next node
 
-    // Free the memory
+    // Free the memory of the popped node
     free(temp);
 
     return poppedQueue;

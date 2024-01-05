@@ -26,6 +26,7 @@ int main(void)
 
     // active button
     int firstPartButton = 1;
+
     // memory initialization
     struct memoryPartition *memory = NULL;
     initializeMemory(&memory);
@@ -37,21 +38,26 @@ int main(void)
     // Create an array to store processes
     struct process processArray[MAX_PROCESSES];
 
+    // Filling up the  Queue
     initializeProcessesQueue(processQueue, processArray);
 
-    printf("[INFO] Queue processes initialized\n");
+    // #################################################
+    // Initialize the Queue with the higher priority
+    struct Queue *highPriorityQueue = createQueue();
 
-    printQueue(processQueue);
+    // Create an array to store processes
+    struct process highPriorityprocessArray[MAX_PROCESSES];
 
-    printMemory(memory);
-    printQueue(processQueue);
+    // Filling up the  Queue
+    initializeProcessesQueue(highPriorityQueue, highPriorityprocessArray);
 
     // Stack initialization
     struct Stack queuesStack;
-    initializeStack(&queuesStack);
+    initializeStack(&queuesStack, highPriorityQueue);
     initializeQueuesStack(&queuesStack);
-    printStack(&queuesStack);
 
+    // ##################################################################
+    // setting up the screen proprietiSSes
     const int screenWidth = 1600;
     const int screenHeight = 900;
     double currentTime = 0.0;
@@ -95,6 +101,9 @@ int main(void)
 
         if (firstPartButton)
         {
+            // Draw the process queue
+            drawVerticalQueue(processQueue, processArray);
+
             // Draw the method's buttons
             if (GuiButton((Rectangle){methodsbuttonX, methodsbuttonY, buttonWidth, buttonHeight}, "Re-initialize Memory"))
             {
@@ -157,16 +166,45 @@ int main(void)
         }
         else if (!firstPartButton)
         {
+            // Draw the process queue
+            drawVerticalQueue(processQueue, highPriorityprocessArray);
             // Draw the queues stack
+            drawVerticalStack(&queuesStack);
 
-            if (GuiButton((Rectangle){methodsbuttonX, methodsbuttonY, buttonWidth, buttonHeight}, "under sonctruction"))
+            if (GuiButton((Rectangle){methodsbuttonX, methodsbuttonY, buttonWidth, buttonHeight}, "Re-initialize Memory"))
             {
-                struct process *partition = dequeue(processQueue);
-                worstFit(&memory, partition);
+                // Free the memory partitions
+                freeMemory(&memory);
+
+                // Initialize new memory partitions
+                initializeMemory(&memory);
+                printf("[INFO] Memory partitions Re-initialized\n");
             }
+
+            methodsbuttonX += buttonWidth + buttonSpacing;
+
+            if (GuiButton((Rectangle){methodsbuttonX, methodsbuttonY, buttonWidth, buttonHeight}, "Best Fit"))
+            {
+                if (!isStackEmpty(&queuesStack))
+                {
+                    if (!isEmpty(highPriorityQueue))
+                    {
+                        struct process *highPriorityPartition = dequeue(highPriorityQueue);
+                        timerState = true;
+                        bestFit(&memory, highPriorityPartition);
+                    }
+                    else
+                    {
+                        struct Queue *highPriorityQueue = pop(&queuesStack);
+                        struct process *highPriorityPartition = dequeue(highPriorityQueue);
+                        timerState = true;
+                        bestFit(&memory, highPriorityPartition);
+                    }
+                }
+            }
+
+            methodsbuttonX += buttonWidth + buttonSpacing;
         }
-        drawVerticalQueue(processQueue, processArray);
-        drawVerticalStack(&queuesStack);
 
         // Draw the memory layout
         drawMemoryLayout(memory, &timerState);

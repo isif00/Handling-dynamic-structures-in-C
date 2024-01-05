@@ -14,7 +14,7 @@ void drawVerticalStack(struct Stack *stack)
     int yPos = 500;
     int xPos = 450;
 
-    int i = 1;
+    int i = 3;
     // Draw text indicating process details from the processArray
     struct Stack *current = stack->next;
     while (current != NULL)
@@ -28,9 +28,18 @@ void drawVerticalStack(struct Stack *stack)
         // Draw the text indicating the process detail
         DrawText(TextFormat("Priority: %d", i), xPos + 10, yPos + 10, 16, WHITE);
 
+        struct Queue *currentQueue = current->data;
+        DrawText(TextFormat("Queues Num: %d", size(currentQueue)), xPos + 10, yPos + 30, 16, WHITE);
+
         // Increment xPos, priority index, current queue to draw the next process
-        i++;
+        i--;
         xPos += processSpacing;
         current = current->next;
+
+        if (isStackEmpty(stack))
+        {
+            DrawText("Stack is empty", 450, 510, 30, RED);
+            return;
+        }
     }
 }

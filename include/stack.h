@@ -9,7 +9,7 @@ struct Stack
     struct Stack *next;
 };
 
-void initializeStack(struct Stack *stack);
+void initializeStack(struct Stack *stack, struct Queue *highPriorityQueue);
 int isStackEmpty(struct Stack *stack);
 void push(struct Stack *stack, struct Queue *queue);
 struct Queue *pop(struct Stack *stack);
