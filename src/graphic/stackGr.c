@@ -29,17 +29,20 @@ void drawVerticalStack(struct Stack *stack)
         DrawText(TextFormat("Priority: %d", i), xPos + 10, yPos + 10, 16, WHITE);
 
         struct Queue *currentQueue = current->data;
-        DrawText(TextFormat("Queues Num: %d", size(currentQueue)), xPos + 10, yPos + 30, 16, WHITE);
+        DrawText(TextFormat("%p\n", (void *)currentQueue), xPos + 10, yPos + 30, 12, WHITE);
+
+        DrawText(TextFormat("Queues Num: %d", size(currentQueue)), xPos + 10, yPos + 60, 16, WHITE);
+
+        printf("next: %p\n", (void *)stack->next);
+        if (stack->next == NULL)
+        {
+            DrawText("Stack is empty", 450, 510, 30, RED);
+            return;
+        }
 
         // Increment xPos, priority index, current queue to draw the next process
         i--;
         xPos += processSpacing;
         current = current->next;
-
-        if (isStackEmpty(stack))
-        {
-            DrawText("Stack is empty", 450, 510, 30, RED);
-            return;
-        }
     }
 }

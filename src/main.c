@@ -54,11 +54,12 @@ int main(void)
     // Stack initialization
     struct Stack queuesStack;
     initializeStack(&queuesStack, highPriorityQueue);
+    push(&queuesStack, highPriorityQueue);
     initializeQueuesStack(&queuesStack);
 
     // ##################################################################
     // setting up the screen proprietiSSes
-    const int screenWidth = 1600;
+    const int screenWidth = 1700;
     const int screenHeight = 900;
     double currentTime = 0.0;
 
@@ -80,7 +81,7 @@ int main(void)
         int buttony = screenHeight - 180;
 
         // Draw the method's buttons
-        float methodsbuttonX = (screenWidth - (4 * buttonWidth + 2 * buttonSpacing)) / 2;
+        float methodsbuttonX = (screenWidth - (5 * buttonWidth + 2 * buttonSpacing)) / 2;
         int methodsbuttonY = screenHeight - 120;
 
         // Draw the tillFull method's buttons
@@ -113,6 +114,21 @@ int main(void)
                 // Initialize new memory partitions
                 initializeMemory(&memory);
                 printf("[INFO] Memory partitions Re-initialized\n");
+            }
+
+            methodsbuttonX += buttonWidth + buttonSpacing;
+
+            if (GuiButton((Rectangle){methodsbuttonX, methodsbuttonY, buttonWidth, buttonHeight}, "Re-initialize process queue"))
+            {
+                // initialize process queue
+                processQueue = createQueue();
+
+                // Create an array to store processes
+                struct process newprocessArray[MAX_PROCESSES];
+
+                // Filling up the  Queue
+                initializeProcessesQueue(processQueue, processArray);
+                drawVerticalQueue(processQueue, processArray);
             }
 
             methodsbuttonX += buttonWidth + buttonSpacing;
@@ -167,9 +183,7 @@ int main(void)
         else if (!firstPartButton)
         {
             // Draw the process queue
-            drawVerticalQueue(processQueue, highPriorityprocessArray);
-            // Draw the queues stack
-            drawVerticalStack(&queuesStack);
+            drawVerticalQueue(highPriorityQueue, highPriorityprocessArray);
 
             if (GuiButton((Rectangle){methodsbuttonX, methodsbuttonY, buttonWidth, buttonHeight}, "Re-initialize Memory"))
             {
@@ -189,21 +203,63 @@ int main(void)
                 {
                     if (!isEmpty(highPriorityQueue))
                     {
+                        printf("first queu");
                         struct process *highPriorityPartition = dequeue(highPriorityQueue);
                         timerState = true;
                         bestFit(&memory, highPriorityPartition);
                     }
                     else
                     {
-                        struct Queue *highPriorityQueue = pop(&queuesStack);
-                        struct process *highPriorityPartition = dequeue(highPriorityQueue);
-                        timerState = true;
-                        bestFit(&memory, highPriorityPartition);
+                        printf("second queue");
+                        highPriorityQueue = pop(&queuesStack);
                     }
                 }
             }
 
             methodsbuttonX += buttonWidth + buttonSpacing;
+
+            if (GuiButton((Rectangle){methodsbuttonX, methodsbuttonY, buttonWidth, buttonHeight}, "First Fit"))
+            {
+                if (!isStackEmpty(&queuesStack))
+                {
+                    if (!isEmpty(highPriorityQueue))
+                    {
+                        struct process *highPriorityPartition = dequeue(highPriorityQueue);
+                        timerState = true;
+                        firstFit(&memory, highPriorityPartition);
+                    }
+                    else
+                    {
+                        printf("second queue");
+                        highPriorityQueue = pop(&queuesStack);
+                    }
+                }
+            }
+
+            methodsbuttonX += buttonWidth + buttonSpacing;
+
+            if (GuiButton((Rectangle){methodsbuttonX, methodsbuttonY, buttonWidth, buttonHeight}, "Worst Fit"))
+            {
+                if (!isStackEmpty(&queuesStack))
+                {
+                    if (!isEmpty(highPriorityQueue))
+                    {
+                        printf("first queu");
+                        struct process *highPriorityPartition = dequeue(highPriorityQueue);
+                        timerState = true;
+                        worstFit(&memory, highPriorityPartition);
+                    }
+                    else
+                    {
+                        printf("second queue");
+                        highPriorityQueue = pop(&queuesStack);
+                    }
+                }
+            }
+
+            // Draw the queues stack
+            printStack(&queuesStack);
+            drawVerticalStack(&queuesStack);
         }
 
         // Draw the memory layout
@@ -214,7 +270,6 @@ int main(void)
         EndDrawing();
     }
 
-    // De-Initialization
     CloseWindow();
 
     return 0;

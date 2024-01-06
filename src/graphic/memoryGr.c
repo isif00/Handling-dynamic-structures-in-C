@@ -36,7 +36,6 @@ void drawMemoryPartition(struct memoryPartition *partition, int yPos, bool *time
                 double currentTime = GetTime();
                 double elapsedTime = currentTime - partition->startTime;
                 double remainingTime = allocatedProcess->executionDuration - elapsedTime;
-                printf("Time passed: %.2f\n", remainingTime);
 
                 // Display the remaining time
                 DrawText(TextFormat("Time: %.2fs", remainingTime), 30, yPos + 50, 12, YELLOW);
@@ -84,7 +83,7 @@ void drawMemoryLayout(struct memoryPartition *memory, bool *timerState)
 
 void drawMemoryTable(struct memoryPartition *memory)
 {
-    int tableX = 870;
+    int tableX = 970;
     int tableY = 65;
     int rowHeight = 40;
     int colWidth = 170;
@@ -131,5 +130,14 @@ void drawMemoryTable(struct memoryPartition *memory)
         // Move to the next partition
         currentPartition = currentPartition->next;
         rowIndex++;
+
+        // Move to the next row when full
+        if (rowIndex > 7)
+        {
+            tableX = 230;
+            rowY = 0;
+            rowIndex = 1;
+            tableY = 20;
+        }
     }
 }

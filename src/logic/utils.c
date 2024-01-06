@@ -98,13 +98,12 @@ void worstFitUntilFull(struct memoryPartition **memory, struct Queue *newQueue)
 
 void initializeQueuesStack(struct Stack *stack)
 {
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < 2; i++)
     {
         // Create a new queue and push it onto the stack
         struct Queue *newQueue = createQueue();
-        struct process processArray[MAX_PROCESSES];
-        initializeProcessesQueue(newQueue, processArray);
-        front(newQueue);
+        struct process priorityProcessArray[MAX_PROCESSES];
+        initializeProcessesQueue(newQueue, priorityProcessArray);
 
         push(stack, newQueue);
 
