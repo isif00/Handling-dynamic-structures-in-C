@@ -12,11 +12,9 @@ We consider that the description of memory partitions is found in a simple linke
 
 To get started with this project, follow the steps below:
 
-1. **Fork the Repository**
+1. **Clone the Repository**
 
-2. **Clone the Repository**
-
-3. **Install the Dependencies**:
+2. **Install the Dependencies**:
 
    *Note: The following instructions are for Arch Linux-based distributions only.*
 
@@ -59,10 +57,10 @@ To get started with this project, follow the steps below:
         ```bash
             git branch -M <your_name>
         ```
-    2. **push your changes**
-    3. **open a pull request and wait for the review**
+    3. **push your changes**
+    4. **open a pull request and wait for the review**
 
-7. **Resources**
+6. **Resources**
     - [makefile](http://retis.sssup.it/~luca/makefiles.pdf)
     - [Raylib](https://www.raylib.com)
     - [Raylib wiki](https://github.com/raysan5/raylib/wiki/Working-on-GNU-Linux)
