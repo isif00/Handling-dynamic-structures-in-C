@@ -44,10 +44,13 @@ To get started with this project, follow the steps below:
         ```bash
             source .zshrc
         ```
-4. **Run the project**:
+4. **Build and Run the project**:
     - run this project simply by running
         ```bash
             make
+        ```
+        ```bash
+            ./build/main
         ```
     **note: make sure to be in the root directory**
 
