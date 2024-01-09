@@ -8,6 +8,10 @@
 // Function to draw a memory partition
 void drawMemoryPartition(struct memoryPartition *partition, int yPos, bool *timerState)
 {
+    // Get the previous partition
+    struct memoryPartition *prev = NULL;
+    struct memoryPartition *current = partition;
+
     // Set the color based on whether the partition is free or not
     Color color = partition->free ? GREEN : RED;
 
@@ -48,12 +52,22 @@ void drawMemoryPartition(struct memoryPartition *partition, int yPos, bool *time
                     free(partition->allocatedProcess);
                     partition->allocatedProcess = NULL;
 
-                    // Merge the partition with the next partition if it is free
+                    // Merge the partition with the next, previous partition if it is free
                     if (partition->next != NULL && partition->next->free)
                     {
+                        printf("Merging with next partition\n");
                         partition->size += partition->next->size;
                         partition->next = partition->next->next;
                     }
+                    if (prev != NULL && prev->free)
+                    {
+                        printf("Merging with previous partition\n");
+                        partition->size += prev->size;
+                        prev->next = partition;
+                    }
+
+                    prev = current;
+                    current = current->next;
                     partition->timerState = false;
                 }
             }

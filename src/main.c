@@ -71,6 +71,10 @@ int main(void)
         BeginDrawing();
         ClearBackground(RAYWHITE);
 
+        // Draw the developer name
+        DrawText("Developed by: Salmi Sifeddine", 20, 800, 20, BLACK);
+        DrawText("               : Bennaceur Younes", 20, 825, 20, BLACK);
+
         // Draw the menu buttons
         int buttonWidth = 150;
         int buttonHeight = 40;
